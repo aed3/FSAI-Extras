@@ -162,7 +162,7 @@ https://psim.us/dev
     const cached_function = BattleRoom.prototype.updateLayout;
     return function () {
       cached_function.apply(this, arguments);
-      resize();
+      $(window).resize();
       this.$('.battle-chat-toggle[name=showChat]').html('<i class="fa fa-caret-left"></i> Battle Log');
     };
   })();
@@ -175,12 +175,11 @@ https://psim.us/dev
     };
   })();
 
-
-  Battle.prototype.stopSeeking = (function () {
-    const cached_function = Battle.prototype.stopSeeking;
+  Battle.prototype.run = (function () {
+    const cached_function = Battle.prototype.run;
     return function () {
       cached_function.apply(this, arguments);
-      resize();
+      $(window).resize();
     };
   })();
 
