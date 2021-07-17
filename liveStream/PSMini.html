@@ -131,7 +131,7 @@ https://psim.us/dev
   };
 
   window.addEventListener('message', (message) => {
-    if (true || /\d{9}-atari-embeds\.googleusercontent\.com/.test(message.origin) &&
+    if (/\d{9}-atari-embeds\.googleusercontent\.com/.test(message.origin) &&
       /gen\d[a-z]{2,}-\d+/.test(message.data)) {
       app.send('/join battle-' + message.data);
     }
@@ -189,10 +189,11 @@ https://psim.us/dev
       }
     }
 
-    App.prototype.receive.apply(app, [data]);
+    App.prototype.receive.call(app, data);
   };
 
   $(window).resize(resize);
+  $(window).resize();
 </script>
 
 <style>

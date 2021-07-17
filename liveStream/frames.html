@@ -32,20 +32,32 @@
       font-size: 2em;
     }
 
+    @media (max-width: 500px) {
+      #Message {
+        font-size: 1.3em;
+      }
+    }
+
     pre.moves {
-      position: absolute;
       top: 42%;
       right: 5%;
       font-size: 18px;
-      white-space: pre-wrap;
       width: 50%;
+      white-space: pre-wrap;
+    }
+
+    .moves.long-name {
+      top: 51%;
     }
 
     pre.stats {
-      position: absolute;
       top: 21%;
       left: 0;
       margin: 0;
+    }
+
+    .stats.long-name {
+      top: 29%;
     }
 
     .move {
@@ -56,14 +68,19 @@
       font-size: 28px;
     }
 
+    .move.long-name {
+      top: 38%;
+    }
+
     pre.top {
-      position: absolute;
       top: 0;
       font-size: 21px;
       left: 0%;
+      white-space: pre-wrap;
     }
 
     .TM pre {
+      position: absolute;
       margin: 0;
     }
 
@@ -73,8 +90,12 @@
       height: 60%;
     }
 
+    img.long-name {
+      height: 55%;
+    }
+
     .TM button {
-      display: block;
+      display: none;
       position: absolute;
       right: 10px;
       bottom: 14px;
@@ -90,28 +111,53 @@
 
     .TM {
       position: relative;
+      top: calc((33.33% - 225px + 8px) / 2 + 50px);
+      left: calc((50% - 344px) / 2 + 16px);
       float: left;
       width: 344px;
       height: 240px;
-      color: #ffffff;
       margin-right: calc(50% - 344px);
       margin-bottom: calc(33.33% - 225px);
-      top: calc(50% - 344px + 8px);
-      left: calc(33.33% - 225px + 8px);
+      color: #ffffff;
     }
 
     .TM.onePerRow {
+      top: calc((66.66% - 225px + 8px) / 2 + 20px);
+      left: calc((100% - 344px) / 2 + 16px);
       margin-right: calc(100% - 344px);
       margin-bottom: calc(66.66% - 225px);
-      top: calc(100% - 344px + 8px);
-      left: calc(66.66% - 225px + 8px);
     }
 
-    #chart,
-    body {
+    #TeamDisplayTitle {
+      color: #ffffff;
+      text-align: center;
+      font-family: Oswald, Open-Sans, Roboto, sans-serif;
+      position: absolute;
+      left: 0px;
+      text-transform: uppercase;
+      font-size: 6vw;
+      width: 100%;
+      margin: auto;
+      font-weight: 600;
+    }
+
+    #TeamDisplayTitle hr {
+      width: 95%;
+      margin-top: 6px;
+    }
+
+    #chart, body {
       background-color: #181a1b;
     }
+
+    body {
+      margin: 0px;
+      overflow-x: hidden;
+    }
   </style>
+  <script>
+    const imageForms = {'Bulbasaur':{'form':0,'color':'#78C850'},'Ivysaur':{'form':0,'color':'#78C850'},'Venusaur':{'form':0,'color':'#78C850'},'Venusaur-Mega':{'form':1,'color':'#78C850'},'Venusaur-Gmax':{'form':2,'color':'#78C850'},'Charmander':{'form':0,'color':'#F08030'},'Charmeleon':{'form':0,'color':'#F08030'},'Charizard':{'form':0,'color':'#F08030'},'Charizard-Mega-X':{'form':1,'color':'#F08030'},'Charizard-Mega-Y':{'form':2,'color':'#F08030'},'Charizard-Gmax':{'form':3,'color':'#F08030'},'Squirtle':{'form':0,'color':'#6890F0'},'Wartortle':{'form':0,'color':'#6890F0'},'Blastoise':{'form':0,'color':'#6890F0'},'Blastoise-Mega':{'form':1,'color':'#6890F0'},'Blastoise-Gmax':{'form':2,'color':'#6890F0'},'Caterpie':{'form':0,'color':'#A8B820'},'Metapod':{'form':0,'color':'#A8B820'},'Butterfree':{'form':0,'color':'#A8B820'},'Butterfree-Gmax':{'form':1,'color':'#A8B820'},'Weedle':{'form':0,'color':'#A8B820'},'Kakuna':{'form':0,'color':'#A8B820'},'Beedrill':{'form':0,'color':'#A8B820'},'Beedrill-Mega':{'form':1,'color':'#A8B820'},'Pidgey':{'form':0,'color':'#A8A878'},'Pidgeotto':{'form':0,'color':'#A8A878'},'Pidgeot':{'form':0,'color':'#A8A878'},'Pidgeot-Mega':{'form':1,'color':'#A8A878'},'Rattata':{'form':0,'color':'#A8A878'},'Rattata-Alola':{'form':1,'color':'#705848'},'Raticate':{'form':0,'color':'#A8A878'},'Raticate-Alola':{'form':1,'color':'#705848'},'Raticate-Alola-Totem':{'form':1,'color':'#705848'},'Spearow':{'form':0,'color':'#A8A878'},'Fearow':{'form':0,'color':'#A8A878'},'Ekans':{'form':0,'color':'#A040A0'},'Arbok':{'form':0,'color':'#A040A0'},'Pikachu':{'form':0,'color':'#F8D030'},'Pikachu-Gmax':{'form':1,'color':'#F8D030'},'Raichu':{'form':0,'color':'#F8D030'},'Raichu-Alola':{'form':1,'color':'#F8D030'},'Sandshrew':{'form':0,'color':'#E0C068'},'Sandshrew-Alola':{'form':1,'color':'#98D8D8'},'Sandslash':{'form':0,'color':'#E0C068'},'Sandslash-Alola':{'form':1,'color':'#98D8D8'},'Nidoran-F':{'form':0,'color':'#A040A0'},'Nidorina':{'form':0,'color':'#A040A0'},'Nidoqueen':{'form':0,'color':'#A040A0'},'Nidoran-M':{'form':0,'color':'#A040A0'},'Nidorino':{'form':0,'color':'#A040A0'},'Nidoking':{'form':0,'color':'#A040A0'},'Clefairy':{'form':0,'color':'#EE99AC'},'Clefable':{'form':0,'color':'#EE99AC'},'Vulpix':{'form':0,'color':'#F08030'},'Vulpix-Alola':{'form':1,'color':'#98D8D8'},'Ninetales':{'form':0,'color':'#F08030'},'Ninetales-Alola':{'form':1,'color':'#98D8D8'},'Jigglypuff':{'form':0,'color':'#A8A878'},'Wigglytuff':{'form':0,'color':'#A8A878'},'Zubat':{'form':0,'color':'#A040A0'},'Golbat':{'form':0,'color':'#A040A0'},'Oddish':{'form':0,'color':'#78C850'},'Gloom':{'form':0,'color':'#78C850'},'Vileplume':{'form':0,'color':'#78C850'},'Paras':{'form':0,'color':'#A8B820'},'Parasect':{'form':0,'color':'#A8B820'},'Venonat':{'form':0,'color':'#A8B820'},'Venomoth':{'form':0,'color':'#A8B820'},'Diglett':{'form':0,'color':'#E0C068'},'Diglett-Alola':{'form':1,'color':'#E0C068'},'Dugtrio':{'form':0,'color':'#E0C068'},'Dugtrio-Alola':{'form':1,'color':'#E0C068'},'Meowth':{'form':0,'color':'#A8A878'},'Meowth-Alola':{'form':1,'color':'#705848'},'Meowth-Galar':{'form':2,'color':'#B8B8D0'},'Meowth-Gmax':{'form':3,'color':'#B8B8D0'},'Persian':{'form':0,'color':'#A8A878'},'Persian-Alola':{'form':1,'color':'#705848'},'Psyduck':{'form':0,'color':'#6890F0'},'Golduck':{'form':0,'color':'#6890F0'},'Mankey':{'form':0,'color':'#C03028'},'Primeape':{'form':0,'color':'#C03028'},'Growlithe':{'form':0,'color':'#F08030'},'Arcanine':{'form':0,'color':'#F08030'},'Poliwag':{'form':0,'color':'#6890F0'},'Poliwhirl':{'form':0,'color':'#6890F0'},'Poliwrath':{'form':0,'color':'#6890F0'},'Abra':{'form':0,'color':'#F85888'},'Kadabra':{'form':0,'color':'#F85888'},'Alakazam':{'form':0,'color':'#F85888'},'Alakazam-Mega':{'form':1,'color':'#F85888'},'Machop':{'form':0,'color':'#C03028'},'Machoke':{'form':0,'color':'#C03028'},'Machamp':{'form':0,'color':'#C03028'},'Machamp-Gmax':{'form':1,'color':'#C03028'},'Bellsprout':{'form':0,'color':'#78C850'},'Weepinbell':{'form':0,'color':'#78C850'},'Victreebel':{'form':0,'color':'#78C850'},'Tentacool':{'form':0,'color':'#6890F0'},'Tentacruel':{'form':0,'color':'#6890F0'},'Geodude':{'form':0,'color':'#B8A038'},'Geodude-Alola':{'form':1,'color':'#B8A038'},'Graveler':{'form':0,'color':'#B8A038'},'Graveler-Alola':{'form':1,'color':'#B8A038'},'Golem':{'form':0,'color':'#B8A038'},'Golem-Alola':{'form':1,'color':'#B8A038'},'Ponyta':{'form':0,'color':'#F08030'},'Ponyta-Galar':{'form':1,'color':'#F85888'},'Rapidash':{'form':0,'color':'#F08030'},'Rapidash-Galar':{'form':1,'color':'#F85888'},'Slowpoke':{'form':0,'color':'#6890F0'},'Slowpoke-Galar':{'form':1,'color':'#F85888'},'Slowbro':{'form':0,'color':'#6890F0'},'Slowbro-Mega':{'form':1,'color':'#6890F0'},'Slowbro-Galar':{'form':2,'color':'#A040A0'},'Magnemite':{'form':0,'color':'#F8D030'},'Magneton':{'form':0,'color':'#F8D030'},'Farfetch\'d':{'form':0,'color':'#A8A878'},'Farfetch\'d-Galar':{'form':1,'color':'#C03028'},'Farfetch&#x27;d-Galar':{'form':1,'color':'#C03028'},'Farfetch’d-Galar':{'form':1,'color':'#C03028'},'Doduo':{'form':0,'color':'#A8A878'},'Dodrio':{'form':0,'color':'#A8A878'},'Seel':{'form':0,'color':'#6890F0'},'Dewgong':{'form':0,'color':'#6890F0'},'Grimer':{'form':0,'color':'#A040A0'},'Grimer-Alola':{'form':1,'color':'#A040A0'},'Muk':{'form':0,'color':'#A040A0'},'Muk-Alola':{'form':1,'color':'#A040A0'},'Shellder':{'form':0,'color':'#6890F0'},'Cloyster':{'form':0,'color':'#6890F0'},'Gastly':{'form':0,'color':'#705898'},'Haunter':{'form':0,'color':'#705898'},'Gengar':{'form':0,'color':'#705898'},'Gengar-Mega':{'form':1,'color':'#705898'},'Gengar-Gmax':{'form':2,'color':'#705898'},'Onix':{'form':0,'color':'#B8A038'},'Drowzee':{'form':0,'color':'#F85888'},'Hypno':{'form':0,'color':'#F85888'},'Krabby':{'form':0,'color':'#6890F0'},'Kingler':{'form':0,'color':'#6890F0'},'Kingler-Gmax':{'form':1,'color':'#6890F0'},'Voltorb':{'form':0,'color':'#F8D030'},'Electrode':{'form':0,'color':'#F8D030'},'Exeggcute':{'form':0,'color':'#78C850'},'Exeggutor':{'form':0,'color':'#78C850'},'Exeggutor-Alola':{'form':1,'color':'#78C850'},'Cubone':{'form':0,'color':'#E0C068'},'Marowak':{'form':0,'color':'#E0C068'},'Marowak-Alola':{'form':1,'color':'#F08030'},'Marowak-Alola-Totem':{'form':1,'color':'#F08030'},'Hitmonlee':{'form':0,'color':'#C03028'},'Hitmonchan':{'form':0,'color':'#C03028'},'Lickitung':{'form':0,'color':'#A8A878'},'Koffing':{'form':0,'color':'#A040A0'},'Weezing':{'form':0,'color':'#A040A0'},'Weezing-Galar':{'form':1,'color':'#A040A0'},'Rhyhorn':{'form':0,'color':'#E0C068'},'Rhydon':{'form':0,'color':'#E0C068'},'Chansey':{'form':0,'color':'#A8A878'},'Tangela':{'form':0,'color':'#78C850'},'Kangaskhan':{'form':0,'color':'#A8A878'},'Kangaskhan-Mega':{'form':1,'color':'#A8A878'},'Horsea':{'form':0,'color':'#6890F0'},'Seadra':{'form':0,'color':'#6890F0'},'Goldeen':{'form':0,'color':'#6890F0'},'Seaking':{'form':0,'color':'#6890F0'},'Staryu':{'form':0,'color':'#6890F0'},'Starmie':{'form':0,'color':'#6890F0'},'Mr.Mime':{'form':0,'color':'#F85888'},'Mr.Mime-Galar':{'form':1,'color':'#98D8D8'},'Scyther':{'form':0,'color':'#A8B820'},'Jynx':{'form':0,'color':'#98D8D8'},'Electabuzz':{'form':0,'color':'#F8D030'},'Magmar':{'form':0,'color':'#F08030'},'Pinsir':{'form':0,'color':'#A8B820'},'Pinsir-Mega':{'form':1,'color':'#A8B820'},'Tauros':{'form':0,'color':'#A8A878'},'Magikarp':{'form':0,'color':'#6890F0'},'Gyarados':{'form':0,'color':'#6890F0'},'Gyarados-Mega':{'form':1,'color':'#6890F0'},'Lapras':{'form':0,'color':'#6890F0'},'Lapras-Gmax':{'form':1,'color':'#6890F0'},'Ditto':{'form':0,'color':'#A8A878'},'Eevee':{'form':0,'color':'#A8A878'},'Eevee-Gmax':{'form':1,'color':'#A8A878'},'Vaporeon':{'form':0,'color':'#6890F0'},'Jolteon':{'form':0,'color':'#F8D030'},'Flareon':{'form':0,'color':'#F08030'},'Porygon':{'form':0,'color':'#A8A878'},'Omanyte':{'form':0,'color':'#B8A038'},'Omastar':{'form':0,'color':'#B8A038'},'Kabuto':{'form':0,'color':'#B8A038'},'Kabutops':{'form':0,'color':'#B8A038'},'Aerodactyl':{'form':0,'color':'#B8A038'},'Aerodactyl-Mega':{'form':1,'color':'#B8A038'},'Snorlax':{'form':0,'color':'#A8A878'},'Snorlax-Gmax':{'form':1,'color':'#A8A878'},'Articuno':{'form':0,'color':'#98D8D8'},'Articuno-Galar':{'form':1,'color':'#F85888'},'Zapdos':{'form':0,'color':'#F8D030'},'Zapdos-Galar':{'form':1,'color':'#C03028'},'Moltres':{'form':0,'color':'#F08030'},'Moltres-Galar':{'form':1,'color':'#F08030'},'Dratini':{'form':0,'color':'#7038F8'},'Dragonair':{'form':0,'color':'#7038F8'},'Dragonite':{'form':0,'color':'#7038F8'},'Mewtwo':{'form':0,'color':'#F85888'},'Mewtwo-Mega-X':{'form':1,'color':'#F85888'},'Mewtwo-Mega-Y':{'form':2,'color':'#F85888'},'Mew':{'form':0,'color':'#F85888'},'Chikorita':{'form':0,'color':'#78C850'},'Bayleef':{'form':0,'color':'#78C850'},'Meganium':{'form':0,'color':'#78C850'},'Cyndaquil':{'form':0,'color':'#F08030'},'Quilava':{'form':0,'color':'#F08030'},'Typhlosion':{'form':0,'color':'#F08030'},'Totodile':{'form':0,'color':'#6890F0'},'Croconaw':{'form':0,'color':'#6890F0'},'Feraligatr':{'form':0,'color':'#6890F0'},'Sentret':{'form':0,'color':'#A8A878'},'Furret':{'form':0,'color':'#A8A878'},'Hoothoot':{'form':0,'color':'#A8A878'},'Noctowl':{'form':0,'color':'#A8A878'},'Ledyba':{'form':0,'color':'#A8B820'},'Ledian':{'form':0,'color':'#A8B820'},'Spinarak':{'form':0,'color':'#A8B820'},'Ariados':{'form':0,'color':'#A8B820'},'Crobat':{'form':0,'color':'#A040A0'},'Chinchou':{'form':0,'color':'#6890F0'},'Lanturn':{'form':0,'color':'#6890F0'},'Pichu':{'form':0,'color':'#F8D030'},'Cleffa':{'form':0,'color':'#EE99AC'},'Igglybuff':{'form':0,'color':'#A8A878'},'Togepi':{'form':0,'color':'#EE99AC'},'Togetic':{'form':0,'color':'#EE99AC'},'Natu':{'form':0,'color':'#F85888'},'Xatu':{'form':0,'color':'#F85888'},'Mareep':{'form':0,'color':'#F8D030'},'Flaaffy':{'form':0,'color':'#F8D030'},'Ampharos':{'form':0,'color':'#F8D030'},'Ampharos-Mega':{'form':1,'color':'#F8D030'},'Bellossom':{'form':0,'color':'#78C850'},'Marill':{'form':0,'color':'#6890F0'},'Azumarill':{'form':0,'color':'#6890F0'},'Sudowoodo':{'form':0,'color':'#B8A038'},'Politoed':{'form':0,'color':'#6890F0'},'Hoppip':{'form':0,'color':'#78C850'},'Skiploom':{'form':0,'color':'#78C850'},'Jumpluff':{'form':0,'color':'#78C850'},'Aipom':{'form':0,'color':'#A8A878'},'Sunkern':{'form':0,'color':'#78C850'},'Sunflora':{'form':0,'color':'#78C850'},'Yanma':{'form':0,'color':'#A8B820'},'Wooper':{'form':0,'color':'#6890F0'},'Quagsire':{'form':0,'color':'#6890F0'},'Espeon':{'form':0,'color':'#F85888'},'Umbreon':{'form':0,'color':'#705848'},'Murkrow':{'form':0,'color':'#705848'},'Slowking':{'form':0,'color':'#6890F0'},'Slowking-Galar':{'form':1,'color':'#A040A0'},'Misdreavus':{'form':0,'color':'#705898'},'Unown':{'form':0,'color':'#F85888'},'Wobbuffet':{'form':0,'color':'#F85888'},'Girafarig':{'form':0,'color':'#A8A878'},'Pineco':{'form':0,'color':'#A8B820'},'Forretress':{'form':0,'color':'#A8B820'},'Dunsparce':{'form':0,'color':'#A8A878'},'Gligar':{'form':0,'color':'#E0C068'},'Steelix':{'form':0,'color':'#B8B8D0'},'Steelix-Mega':{'form':1,'color':'#B8B8D0'},'Snubbull':{'form':0,'color':'#EE99AC'},'Granbull':{'form':0,'color':'#EE99AC'},'Qwilfish':{'form':0,'color':'#6890F0'},'Scizor':{'form':0,'color':'#A8B820'},'Scizor-Mega':{'form':1,'color':'#A8B820'},'Shuckle':{'form':0,'color':'#A8B820'},'Heracross':{'form':0,'color':'#A8B820'},'Heracross-Mega':{'form':1,'color':'#A8B820'},'Sneasel':{'form':0,'color':'#705848'},'Teddiursa':{'form':0,'color':'#A8A878'},'Ursaring':{'form':0,'color':'#A8A878'},'Slugma':{'form':0,'color':'#F08030'},'Magcargo':{'form':0,'color':'#F08030'},'Swinub':{'form':0,'color':'#98D8D8'},'Piloswine':{'form':0,'color':'#98D8D8'},'Corsola':{'form':0,'color':'#6890F0'},'Corsola-Galar':{'form':1,'color':'#705898'},'Remoraid':{'form':0,'color':'#6890F0'},'Octillery':{'form':0,'color':'#6890F0'},'Delibird':{'form':0,'color':'#98D8D8'},'Mantine':{'form':0,'color':'#6890F0'},'Skarmory':{'form':0,'color':'#B8B8D0'},'Houndour':{'form':0,'color':'#705848'},'Houndoom':{'form':0,'color':'#705848'},'Houndoom-Mega':{'form':1,'color':'#705848'},'Kingdra':{'form':0,'color':'#6890F0'},'Phanpy':{'form':0,'color':'#E0C068'},'Donphan':{'form':0,'color':'#E0C068'},'Porygon2':{'form':0,'color':'#A8A878'},'Stantler':{'form':0,'color':'#A8A878'},'Smeargle':{'form':0,'color':'#A8A878'},'Tyrogue':{'form':0,'color':'#C03028'},'Hitmontop':{'form':0,'color':'#C03028'},'Smoochum':{'form':0,'color':'#98D8D8'},'Elekid':{'form':0,'color':'#F8D030'},'Magby':{'form':0,'color':'#F08030'},'Miltank':{'form':0,'color':'#A8A878'},'Blissey':{'form':0,'color':'#A8A878'},'Raikou':{'form':0,'color':'#F8D030'},'Entei':{'form':0,'color':'#F08030'},'Suicune':{'form':0,'color':'#6890F0'},'Larvitar':{'form':0,'color':'#B8A038'},'Pupitar':{'form':0,'color':'#B8A038'},'Tyranitar':{'form':0,'color':'#B8A038'},'Tyranitar-Mega':{'form':1,'color':'#B8A038'},'Lugia':{'form':0,'color':'#F85888'},'Ho-Oh':{'form':0,'color':'#F08030'},'Celebi':{'form':0,'color':'#F85888'},'Treecko':{'form':0,'color':'#78C850'},'Grovyle':{'form':0,'color':'#78C850'},'Sceptile':{'form':0,'color':'#78C850'},'Sceptile-Mega':{'form':1,'color':'#78C850'},'Torchic':{'form':0,'color':'#F08030'},'Combusken':{'form':0,'color':'#F08030'},'Blaziken':{'form':0,'color':'#F08030'},'Blaziken-Mega':{'form':1,'color':'#F08030'},'Mudkip':{'form':0,'color':'#6890F0'},'Marshtomp':{'form':0,'color':'#6890F0'},'Swampert':{'form':0,'color':'#6890F0'},'Swampert-Mega':{'form':1,'color':'#6890F0'},'Poochyena':{'form':0,'color':'#705848'},'Mightyena':{'form':0,'color':'#705848'},'Zigzagoon':{'form':0,'color':'#A8A878'},'Zigzagoon-Galar':{'form':1,'color':'#705848'},'Linoone':{'form':0,'color':'#A8A878'},'Linoone-Galar':{'form':1,'color':'#705848'},'Wurmple':{'form':0,'color':'#A8B820'},'Silcoon':{'form':0,'color':'#A8B820'},'Beautifly':{'form':0,'color':'#A8B820'},'Cascoon':{'form':0,'color':'#A8B820'},'Dustox':{'form':0,'color':'#A8B820'},'Lotad':{'form':0,'color':'#6890F0'},'Lombre':{'form':0,'color':'#6890F0'},'Ludicolo':{'form':0,'color':'#6890F0'},'Seedot':{'form':0,'color':'#78C850'},'Nuzleaf':{'form':0,'color':'#78C850'},'Shiftry':{'form':0,'color':'#78C850'},'Taillow':{'form':0,'color':'#A8A878'},'Swellow':{'form':0,'color':'#A8A878'},'Wingull':{'form':0,'color':'#6890F0'},'Pelipper':{'form':0,'color':'#6890F0'},'Ralts':{'form':0,'color':'#F85888'},'Kirlia':{'form':0,'color':'#F85888'},'Gardevoir':{'form':0,'color':'#F85888'},'Gardevoir-Mega':{'form':1,'color':'#F85888'},'Surskit':{'form':0,'color':'#A8B820'},'Masquerain':{'form':0,'color':'#A8B820'},'Shroomish':{'form':0,'color':'#78C850'},'Breloom':{'form':0,'color':'#78C850'},'Slakoth':{'form':0,'color':'#A8A878'},'Vigoroth':{'form':0,'color':'#A8A878'},'Slaking':{'form':0,'color':'#A8A878'},'Nincada':{'form':0,'color':'#A8B820'},'Ninjask':{'form':0,'color':'#A8B820'},'Shedinja':{'form':0,'color':'#A8B820'},'Whismur':{'form':0,'color':'#A8A878'},'Loudred':{'form':0,'color':'#A8A878'},'Exploud':{'form':0,'color':'#A8A878'},'Makuhita':{'form':0,'color':'#C03028'},'Hariyama':{'form':0,'color':'#C03028'},'Azurill':{'form':0,'color':'#A8A878'},'Nosepass':{'form':0,'color':'#B8A038'},'Skitty':{'form':0,'color':'#A8A878'},'Delcatty':{'form':0,'color':'#A8A878'},'Sableye':{'form':0,'color':'#705848'},'Sableye-Mega':{'form':1,'color':'#705848'},'Mawile':{'form':0,'color':'#B8B8D0'},'Mawile-Mega':{'form':1,'color':'#B8B8D0'},'Aron':{'form':0,'color':'#B8B8D0'},'Lairon':{'form':0,'color':'#B8B8D0'},'Aggron':{'form':0,'color':'#B8B8D0'},'Aggron-Mega':{'form':1,'color':'#B8B8D0'},'Meditite':{'form':0,'color':'#C03028'},'Medicham':{'form':0,'color':'#C03028'},'Medicham-Mega':{'form':1,'color':'#C03028'},'Electrike':{'form':0,'color':'#F8D030'},'Manectric':{'form':0,'color':'#F8D030'},'Manectric-Mega':{'form':1,'color':'#F8D030'},'Plusle':{'form':0,'color':'#F8D030'},'Minun':{'form':0,'color':'#F8D030'},'Volbeat':{'form':0,'color':'#A8B820'},'Illumise':{'form':0,'color':'#A8B820'},'Roselia':{'form':0,'color':'#78C850'},'Gulpin':{'form':0,'color':'#A040A0'},'Swalot':{'form':0,'color':'#A040A0'},'Carvanha':{'form':0,'color':'#6890F0'},'Sharpedo':{'form':0,'color':'#6890F0'},'Sharpedo-Mega':{'form':1,'color':'#6890F0'},'Wailmer':{'form':0,'color':'#6890F0'},'Wailord':{'form':0,'color':'#6890F0'},'Numel':{'form':0,'color':'#F08030'},'Camerupt':{'form':0,'color':'#F08030'},'Camerupt-Mega':{'form':1,'color':'#F08030'},'Torkoal':{'form':0,'color':'#F08030'},'Spoink':{'form':0,'color':'#F85888'},'Grumpig':{'form':0,'color':'#F85888'},'Spinda':{'form':0,'color':'#A8A878'},'Trapinch':{'form':0,'color':'#E0C068'},'Vibrava':{'form':0,'color':'#E0C068'},'Flygon':{'form':0,'color':'#E0C068'},'Cacnea':{'form':0,'color':'#78C850'},'Cacturne':{'form':0,'color':'#78C850'},'Swablu':{'form':0,'color':'#A8A878'},'Altaria':{'form':0,'color':'#7038F8'},'Altaria-Mega':{'form':1,'color':'#7038F8'},'Zangoose':{'form':0,'color':'#A8A878'},'Seviper':{'form':0,'color':'#A040A0'},'Lunatone':{'form':0,'color':'#B8A038'},'Solrock':{'form':0,'color':'#B8A038'},'Barboach':{'form':0,'color':'#6890F0'},'Whiscash':{'form':0,'color':'#6890F0'},'Corphish':{'form':0,'color':'#6890F0'},'Crawdaunt':{'form':0,'color':'#6890F0'},'Baltoy':{'form':0,'color':'#E0C068'},'Claydol':{'form':0,'color':'#E0C068'},'Lileep':{'form':0,'color':'#B8A038'},'Cradily':{'form':0,'color':'#B8A038'},'Anorith':{'form':0,'color':'#B8A038'},'Armaldo':{'form':0,'color':'#B8A038'},'Feebas':{'form':0,'color':'#6890F0'},'Milotic':{'form':0,'color':'#6890F0'},'Castform':{'form':0,'color':'#A8A878'},'Castform-Sunny':{'form':1,'color':'#F08030'},'Castform-Rainy':{'form':2,'color':'#6890F0'},'Castform-Snowy':{'form':3,'color':'#98D8D8'},'Kecleon':{'form':0,'color':'#A8A878'},'Shuppet':{'form':0,'color':'#705898'},'Banette':{'form':0,'color':'#705898'},'Banette-Mega':{'form':1,'color':'#705898'},'Duskull':{'form':0,'color':'#705898'},'Dusclops':{'form':0,'color':'#705898'},'Tropius':{'form':0,'color':'#78C850'},'Chimecho':{'form':0,'color':'#F85888'},'Absol':{'form':0,'color':'#705848'},'Absol-Mega':{'form':1,'color':'#705848'},'Wynaut':{'form':0,'color':'#F85888'},'Snorunt':{'form':0,'color':'#98D8D8'},'Glalie':{'form':0,'color':'#98D8D8'},'Glalie-Mega':{'form':1,'color':'#98D8D8'},'Spheal':{'form':0,'color':'#98D8D8'},'Sealeo':{'form':0,'color':'#98D8D8'},'Walrein':{'form':0,'color':'#98D8D8'},'Clamperl':{'form':0,'color':'#6890F0'},'Huntail':{'form':0,'color':'#6890F0'},'Gorebyss':{'form':0,'color':'#6890F0'},'Relicanth':{'form':0,'color':'#6890F0'},'Luvdisc':{'form':0,'color':'#6890F0'},'Bagon':{'form':0,'color':'#7038F8'},'Shelgon':{'form':0,'color':'#7038F8'},'Salamence':{'form':0,'color':'#7038F8'},'Salamence-Mega':{'form':1,'color':'#7038F8'},'Beldum':{'form':0,'color':'#B8B8D0'},'Metang':{'form':0,'color':'#B8B8D0'},'Metagross':{'form':0,'color':'#B8B8D0'},'Metagross-Mega':{'form':1,'color':'#B8B8D0'},'Regirock':{'form':0,'color':'#B8A038'},'Regice':{'form':0,'color':'#98D8D8'},'Registeel':{'form':0,'color':'#B8B8D0'},'Latias':{'form':0,'color':'#7038F8'},'Latias-Mega':{'form':1,'color':'#7038F8'},'Latios':{'form':0,'color':'#7038F8'},'Latios-Mega':{'form':1,'color':'#7038F8'},'Kyogre':{'form':0,'color':'#6890F0'},'Kyogre-Primal':{'form':1,'color':'#6890F0'},'Groudon':{'form':0,'color':'#E0C068'},'Groudon-Primal':{'form':1,'color':'#E0C068'},'Rayquaza':{'form':0,'color':'#7038F8'},'Rayquaza-Mega':{'form':1,'color':'#7038F8'},'Jirachi':{'form':0,'color':'#B8B8D0'},'Deoxys':{'form':0,'color':'#F85888'},'Deoxys-Attack':{'form':1,'color':'#F85888'},'Deoxys-Defense':{'form':2,'color':'#F85888'},'Deoxys-Speed':{'form':3,'color':'#F85888'},'Turtwig':{'form':0,'color':'#78C850'},'Grotle':{'form':0,'color':'#78C850'},'Torterra':{'form':0,'color':'#78C850'},'Chimchar':{'form':0,'color':'#F08030'},'Monferno':{'form':0,'color':'#F08030'},'Infernape':{'form':0,'color':'#F08030'},'Piplup':{'form':0,'color':'#6890F0'},'Prinplup':{'form':0,'color':'#6890F0'},'Empoleon':{'form':0,'color':'#6890F0'},'Starly':{'form':0,'color':'#A8A878'},'Staravia':{'form':0,'color':'#A8A878'},'Staraptor':{'form':0,'color':'#A8A878'},'Bidoof':{'form':0,'color':'#A8A878'},'Bibarel':{'form':0,'color':'#A8A878'},'Kricketot':{'form':0,'color':'#A8B820'},'Kricketune':{'form':0,'color':'#A8B820'},'Shinx':{'form':0,'color':'#F8D030'},'Luxio':{'form':0,'color':'#F8D030'},'Luxray':{'form':0,'color':'#F8D030'},'Budew':{'form':0,'color':'#78C850'},'Roserade':{'form':0,'color':'#78C850'},'Cranidos':{'form':0,'color':'#B8A038'},'Rampardos':{'form':0,'color':'#B8A038'},'Shieldon':{'form':0,'color':'#B8A038'},'Bastiodon':{'form':0,'color':'#B8A038'},'Burmy':{'form':0,'color':'#A8B820'},'Burmy-Sandy':{'form':1,'color':'#A8B820'},'Burmy-Trash':{'form':2,'color':'#A8B820'},'Wormadam':{'form':0,'color':'#A8B820'},'Wormadam-Sandy':{'form':1,'color':'#A8B820'},'Wormadam-Trash':{'form':2,'color':'#A8B820'},'Mothim':{'form':0,'color':'#A8B820'},'Combee':{'form':0,'color':'#A8B820'},'Vespiquen':{'form':0,'color':'#A8B820'},'Pachirisu':{'form':0,'color':'#F8D030'},'Buizel':{'form':0,'color':'#6890F0'},'Floatzel':{'form':0,'color':'#6890F0'},'Cherubi':{'form':0,'color':'#78C850'},'Cherrim':{'form':0,'color':'#78C850'},'Cherrim-Sunshine':{'form':1,'color':'#78C850'},'Shellos':{'form':0,'color':'#6890F0'},'Shellos-East':{'form':1,'color':'#6890F0'},'Gastrodon':{'form':0,'color':'#6890F0'},'Gastrodon-East':{'form':1,'color':'#6890F0'},'Ambipom':{'form':0,'color':'#A8A878'},'Drifloon':{'form':0,'color':'#705898'},'Drifblim':{'form':0,'color':'#705898'},'Buneary':{'form':0,'color':'#A8A878'},'Lopunny':{'form':0,'color':'#A8A878'},'Lopunny-Mega':{'form':1,'color':'#A8A878'},'Mismagius':{'form':0,'color':'#705898'},'Honchkrow':{'form':0,'color':'#705848'},'Glameow':{'form':0,'color':'#A8A878'},'Purugly':{'form':0,'color':'#A8A878'},'Chingling':{'form':0,'color':'#F85888'},'Stunky':{'form':0,'color':'#A040A0'},'Skuntank':{'form':0,'color':'#A040A0'},'Bronzor':{'form':0,'color':'#B8B8D0'},'Bronzong':{'form':0,'color':'#B8B8D0'},'Bonsly':{'form':0,'color':'#B8A038'},'MimeJr.':{'form':0,'color':'#F85888'},'Happiny':{'form':0,'color':'#A8A878'},'Chatot':{'form':0,'color':'#A8A878'},'Spiritomb':{'form':0,'color':'#705898'},'Gible':{'form':0,'color':'#7038F8'},'Gabite':{'form':0,'color':'#7038F8'},'Garchomp':{'form':0,'color':'#7038F8'},'Garchomp-Mega':{'form':1,'color':'#7038F8'},'Munchlax':{'form':0,'color':'#A8A878'},'Riolu':{'form':0,'color':'#C03028'},'Lucario':{'form':0,'color':'#C03028'},'Lucario-Mega':{'form':1,'color':'#C03028'},'Hippopotas':{'form':0,'color':'#E0C068'},'Hippowdon':{'form':0,'color':'#E0C068'},'Skorupi':{'form':0,'color':'#A040A0'},'Drapion':{'form':0,'color':'#A040A0'},'Croagunk':{'form':0,'color':'#A040A0'},'Toxicroak':{'form':0,'color':'#A040A0'},'Carnivine':{'form':0,'color':'#78C850'},'Finneon':{'form':0,'color':'#6890F0'},'Lumineon':{'form':0,'color':'#6890F0'},'Mantyke':{'form':0,'color':'#6890F0'},'Snover':{'form':0,'color':'#78C850'},'Abomasnow':{'form':0,'color':'#78C850'},'Abomasnow-Mega':{'form':1,'color':'#78C850'},'Weavile':{'form':0,'color':'#705848'},'Magnezone':{'form':0,'color':'#F8D030'},'Lickilicky':{'form':0,'color':'#A8A878'},'Rhyperior':{'form':0,'color':'#E0C068'},'Tangrowth':{'form':0,'color':'#78C850'},'Electivire':{'form':0,'color':'#F8D030'},'Magmortar':{'form':0,'color':'#F08030'},'Togekiss':{'form':0,'color':'#EE99AC'},'Yanmega':{'form':0,'color':'#A8B820'},'Leafeon':{'form':0,'color':'#78C850'},'Glaceon':{'form':0,'color':'#98D8D8'},'Gliscor':{'form':0,'color':'#E0C068'},'Mamoswine':{'form':0,'color':'#98D8D8'},'Porygon-Z':{'form':0,'color':'#A8A878'},'Gallade':{'form':0,'color':'#F85888'},'Gallade-Mega':{'form':1,'color':'#F85888'},'Probopass':{'form':0,'color':'#B8A038'},'Dusknoir':{'form':0,'color':'#705898'},'Froslass':{'form':0,'color':'#98D8D8'},'Rotom':{'form':0,'color':'#F8D030'},'Rotom-Heat':{'form':1,'color':'#F8D030'},'Rotom-Wash':{'form':2,'color':'#F8D030'},'Rotom-Frost':{'form':3,'color':'#F8D030'},'Rotom-Fan':{'form':4,'color':'#F8D030'},'Rotom-Mow':{'form':5,'color':'#F8D030'},'Uxie':{'form':0,'color':'#F85888'},'Mesprit':{'form':0,'color':'#F85888'},'Azelf':{'form':0,'color':'#F85888'},'Dialga':{'form':0,'color':'#B8B8D0'},'Palkia':{'form':0,'color':'#6890F0'},'Heatran':{'form':0,'color':'#F08030'},'Regigigas':{'form':0,'color':'#A8A878'},'Giratina':{'form':0,'color':'#705898'},'Giratina-Origin':{'form':1,'color':'#705898'},'Cresselia':{'form':0,'color':'#F85888'},'Phione':{'form':0,'color':'#6890F0'},'Manaphy':{'form':0,'color':'#6890F0'},'Darkrai':{'form':0,'color':'#705848'},'Shaymin':{'form':0,'color':'#78C850'},'Shaymin-Sky':{'form':1,'color':'#78C850'},'Arceus-Fairy':{'form':17,'color':'#EE99AC'},'Arceus-Dark':{'form':16,'color':'#705848'},'Arceus-Dragon':{'form':15,'color':'#7038F8'},'Arceus-Ice':{'form':14,'color':'#98D8D8'},'Arceus-Psychic':{'form':13,'color':'#F85888'},'Arceus-Electric':{'form':12,'color':'#F8D030'},'Arceus-Grass':{'form':11,'color':'#78C850'},'Arceus-Water':{'form':10,'color':'#6890F0'},'Arceus-Fire':{'form':9,'color':'#F08030'},'Arceus-Steel':{'form':8,'color':'#B8B8D0'},'Arceus-Ghost':{'form':7,'color':'#705898'},'Arceus-Bug':{'form':6,'color':'#A8B820'},'Arceus-Rock':{'form':5,'color':'#B8A038'},'Arceus-Ground':{'form':4,'color':'#E0C068'},'Arceus-Poison':{'form':3,'color':'#A040A0'},'Arceus-Flying':{'form':2,'color':'#A890F0'},'Arceus-Fighting':{'form':1,'color':'#C03028'},'Arceus':{'form':0,'color':'#A8A878'},'Victini':{'form':0,'color':'#F85888'},'Snivy':{'form':0,'color':'#78C850'},'Servine':{'form':0,'color':'#78C850'},'Serperior':{'form':0,'color':'#78C850'},'Tepig':{'form':0,'color':'#F08030'},'Pignite':{'form':0,'color':'#F08030'},'Emboar':{'form':0,'color':'#F08030'},'Oshawott':{'form':0,'color':'#6890F0'},'Dewott':{'form':0,'color':'#6890F0'},'Samurott':{'form':0,'color':'#6890F0'},'Patrat':{'form':0,'color':'#A8A878'},'Watchog':{'form':0,'color':'#A8A878'},'Lillipup':{'form':0,'color':'#A8A878'},'Herdier':{'form':0,'color':'#A8A878'},'Stoutland':{'form':0,'color':'#A8A878'},'Purrloin':{'form':0,'color':'#705848'},'Liepard':{'form':0,'color':'#705848'},'Pansage':{'form':0,'color':'#78C850'},'Simisage':{'form':0,'color':'#78C850'},'Pansear':{'form':0,'color':'#F08030'},'Simisear':{'form':0,'color':'#F08030'},'Panpour':{'form':0,'color':'#6890F0'},'Simipour':{'form':0,'color':'#6890F0'},'Munna':{'form':0,'color':'#F85888'},'Musharna':{'form':0,'color':'#F85888'},'Pidove':{'form':0,'color':'#A8A878'},'Tranquill':{'form':0,'color':'#A8A878'},'Unfezant':{'form':0,'color':'#A8A878'},'Blitzle':{'form':0,'color':'#F8D030'},'Zebstrika':{'form':0,'color':'#F8D030'},'Roggenrola':{'form':0,'color':'#B8A038'},'Boldore':{'form':0,'color':'#B8A038'},'Gigalith':{'form':0,'color':'#B8A038'},'Woobat':{'form':0,'color':'#F85888'},'Swoobat':{'form':0,'color':'#F85888'},'Drilbur':{'form':0,'color':'#E0C068'},'Excadrill':{'form':0,'color':'#E0C068'},'Audino':{'form':0,'color':'#A8A878'},'Audino-Mega':{'form':1,'color':'#A8A878'},'Timburr':{'form':0,'color':'#C03028'},'Gurdurr':{'form':0,'color':'#C03028'},'Conkeldurr':{'form':0,'color':'#C03028'},'Tympole':{'form':0,'color':'#6890F0'},'Palpitoad':{'form':0,'color':'#6890F0'},'Seismitoad':{'form':0,'color':'#6890F0'},'Throh':{'form':0,'color':'#C03028'},'Sawk':{'form':0,'color':'#C03028'},'Sewaddle':{'form':0,'color':'#A8B820'},'Swadloon':{'form':0,'color':'#A8B820'},'Leavanny':{'form':0,'color':'#A8B820'},'Venipede':{'form':0,'color':'#A8B820'},'Whirlipede':{'form':0,'color':'#A8B820'},'Scolipede':{'form':0,'color':'#A8B820'},'Cottonee':{'form':0,'color':'#78C850'},'Whimsicott':{'form':0,'color':'#78C850'},'Petilil':{'form':0,'color':'#78C850'},'Lilligant':{'form':0,'color':'#78C850'},'Basculin':{'form':0,'color':'#6890F0'},'Basculin-Blue-Striped':{'form':1,'color':'#6890F0'},'Sandile':{'form':0,'color':'#E0C068'},'Krokorok':{'form':0,'color':'#E0C068'},'Krookodile':{'form':0,'color':'#E0C068'},'Darumaka':{'form':0,'color':'#F08030'},'Darmanitan':{'form':0,'color':'#F08030'},'Darmanitan-Zen':{'form':1,'color':'#F08030'},'Darmanitan-Galar':{'form':2,'color':'#98D8D8'},'Darmanitan-Galar-Zen':{'form':3,'color':'#98D8D8'},'Maractus':{'form':0,'color':'#78C850'},'Dwebble':{'form':0,'color':'#A8B820'},'Crustle':{'form':0,'color':'#A8B820'},'Scraggy':{'form':0,'color':'#705848'},'Scrafty':{'form':0,'color':'#705848'},'Sigilyph':{'form':0,'color':'#F85888'},'Yamask':{'form':0,'color':'#705898'},'Yamask-Galar':{'form':1,'color':'#E0C068'},'Cofagrigus':{'form':0,'color':'#705898'},'Tirtouga':{'form':0,'color':'#6890F0'},'Carracosta':{'form':0,'color':'#6890F0'},'Archen':{'form':0,'color':'#B8A038'},'Archeops':{'form':0,'color':'#B8A038'},'Trubbish':{'form':0,'color':'#A040A0'},'Garbodor':{'form':0,'color':'#A040A0'},'Garbodor-Gmax':{'form':1,'color':'#A040A0'},'Zorua':{'form':0,'color':'#705848'},'Zoroark':{'form':0,'color':'#705848'},'Minccino':{'form':0,'color':'#A8A878'},'Cinccino':{'form':0,'color':'#A8A878'},'Gothita':{'form':0,'color':'#F85888'},'Gothorita':{'form':0,'color':'#F85888'},'Gothitelle':{'form':0,'color':'#F85888'},'Solosis':{'form':0,'color':'#F85888'},'Duosion':{'form':0,'color':'#F85888'},'Reuniclus':{'form':0,'color':'#F85888'},'Ducklett':{'form':0,'color':'#6890F0'},'Swanna':{'form':0,'color':'#6890F0'},'Vanillite':{'form':0,'color':'#98D8D8'},'Vanillish':{'form':0,'color':'#98D8D8'},'Vanilluxe':{'form':0,'color':'#98D8D8'},'Deerling':{'form':0,'color':'#A8A878'},'Deerling-Summer':{'form':1,'color':'#A8A878'},'Deerling-Autumn':{'form':2,'color':'#A8A878'},'Deerling-Winter':{'form':3,'color':'#A8A878'},'Sawsbuck':{'form':0,'color':'#A8A878'},'Sawsbuck-Summer':{'form':1,'color':'#A8A878'},'Sawsbuck-Autumn':{'form':2,'color':'#A8A878'},'Sawsbuck-Winter':{'form':3,'color':'#A8A878'},'Emolga':{'form':0,'color':'#F8D030'},'Karrablast':{'form':0,'color':'#A8B820'},'Escavalier':{'form':0,'color':'#A8B820'},'Foongus':{'form':0,'color':'#78C850'},'Amoonguss':{'form':0,'color':'#78C850'},'Frillish':{'form':0,'color':'#6890F0'},'Jellicent':{'form':0,'color':'#6890F0'},'Alomomola':{'form':0,'color':'#6890F0'},'Joltik':{'form':0,'color':'#A8B820'},'Galvantula':{'form':0,'color':'#A8B820'},'Ferroseed':{'form':0,'color':'#78C850'},'Ferrothorn':{'form':0,'color':'#78C850'},'Klink':{'form':0,'color':'#B8B8D0'},'Klang':{'form':0,'color':'#B8B8D0'},'Klinklang':{'form':0,'color':'#B8B8D0'},'Tynamo':{'form':0,'color':'#F8D030'},'Eelektrik':{'form':0,'color':'#F8D030'},'Eelektross':{'form':0,'color':'#F8D030'},'Elgyem':{'form':0,'color':'#F85888'},'Beheeyem':{'form':0,'color':'#F85888'},'Litwick':{'form':0,'color':'#705898'},'Lampent':{'form':0,'color':'#705898'},'Chandelure':{'form':0,'color':'#705898'},'Axew':{'form':0,'color':'#7038F8'},'Fraxure':{'form':0,'color':'#7038F8'},'Haxorus':{'form':0,'color':'#7038F8'},'Cubchoo':{'form':0,'color':'#98D8D8'},'Beartic':{'form':0,'color':'#98D8D8'},'Cryogonal':{'form':0,'color':'#98D8D8'},'Shelmet':{'form':0,'color':'#A8B820'},'Accelgor':{'form':0,'color':'#A8B820'},'Stunfisk':{'form':0,'color':'#E0C068'},'Stunfisk-Galar':{'form':1,'color':'#E0C068'},'Mienfoo':{'form':0,'color':'#C03028'},'Mienshao':{'form':0,'color':'#C03028'},'Druddigon':{'form':0,'color':'#7038F8'},'Golett':{'form':0,'color':'#E0C068'},'Golurk':{'form':0,'color':'#E0C068'},'Pawniard':{'form':0,'color':'#705848'},'Bisharp':{'form':0,'color':'#705848'},'Bouffalant':{'form':0,'color':'#A8A878'},'Rufflet':{'form':0,'color':'#A8A878'},'Braviary':{'form':0,'color':'#A8A878'},'Vullaby':{'form':0,'color':'#705848'},'Mandibuzz':{'form':0,'color':'#705848'},'Heatmor':{'form':0,'color':'#F08030'},'Durant':{'form':0,'color':'#A8B820'},'Deino':{'form':0,'color':'#705848'},'Zweilous':{'form':0,'color':'#705848'},'Hydreigon':{'form':0,'color':'#705848'},'Larvesta':{'form':0,'color':'#A8B820'},'Volcarona':{'form':0,'color':'#A8B820'},'Cobalion':{'form':0,'color':'#B8B8D0'},'Terrakion':{'form':0,'color':'#B8A038'},'Virizion':{'form':0,'color':'#78C850'},'Tornadus':{'form':0,'color':'#A890F0'},'Tornadus-Therian':{'form':1,'color':'#A890F0'},'Thundurus':{'form':0,'color':'#F8D030'},'Thundurus-Therian':{'form':1,'color':'#F8D030'},'Reshiram':{'form':0,'color':'#7038F8'},'Zekrom':{'form':0,'color':'#7038F8'},'Landorus':{'form':0,'color':'#E0C068'},'Landorus-Therian':{'form':1,'color':'#E0C068'},'Kyurem':{'form':0,'color':'#7038F8'},'Kyurem-White':{'form':1,'color':'#7038F8'},'Kyurem-Black':{'form':2,'color':'#7038F8'},'Keldeo':{'form':0,'color':'#6890F0'},'Keldeo-Resolute':{'form':1,'color':'#6890F0'},'Meloetta':{'form':0,'color':'#A8A878'},'Meloetta-Pirouette':{'form':1,'color':'#A8A878'},'Genesect':{'form':0,'color':'#A8B820'},'Chespin':{'form':0,'color':'#78C850'},'Quilladin':{'form':0,'color':'#78C850'},'Chesnaught':{'form':0,'color':'#78C850'},'Fennekin':{'form':0,'color':'#F08030'},'Braixen':{'form':0,'color':'#F08030'},'Delphox':{'form':0,'color':'#F08030'},'Froakie':{'form':0,'color':'#6890F0'},'Frogadier':{'form':0,'color':'#6890F0'},'Greninja-Ash':{'form':2,'color':'#6890F0'},'Greninja':{'form':0,'color':'#6890F0'},'Bunnelby':{'form':0,'color':'#A8A878'},'Diggersby':{'form':0,'color':'#A8A878'},'Fletchling':{'form':0,'color':'#A8A878'},'Fletchinder':{'form':0,'color':'#F08030'},'Talonflame':{'form':0,'color':'#F08030'},'Scatterbug':{'form':0,'color':'#A8B820'},'Spewpa':{'form':0,'color':'#A8B820'},'Vivillon-Icysnow':{'form':0,'color':'#A8B820'},'Vivillon-Polar':{'form':1,'color':'#A8B820'},'Vivillon-Tundra':{'form':2,'color':'#A8B820'},'Vivillon-Continental':{'form':3,'color':'#A8B820'},'Vivillon-Garden':{'form':4,'color':'#A8B820'},'Vivillon-Elegant':{'form':5,'color':'#A8B820'},'Vivillon':{'form':6,'color':'#A8B820'},'Vivillon-Modern':{'form':7,'color':'#A8B820'},'Vivillon-Marine':{'form':8,'color':'#A8B820'},'Vivillon-Archipelago':{'form':9,'color':'#A8B820'},'Vivillon-Highplains':{'form':10,'color':'#A8B820'},'Vivillon-Sandstorm':{'form':11,'color':'#A8B820'},'Vivillon-River':{'form':12,'color':'#A8B820'},'Vivillon-Monsoon':{'form':13,'color':'#A8B820'},'Vivillon-Savanna':{'form':14,'color':'#A8B820'},'Vivillon-Sun':{'form':15,'color':'#A8B820'},'Vivillon-Ocean':{'form':16,'color':'#A8B820'},'Vivillon-Jungle':{'form':17,'color':'#A8B820'},'Vivillon-Fancy':{'form':18,'color':'#A8B820'},'Vivillon-Pokeball':{'form':19,'color':'#A8B820'},'Litleo':{'form':0,'color':'#F08030'},'Pyroar':{'form':0,'color':'#F08030'},'Flabebe':{'form':0,'color':'#EE99AC'},'Flabebe-Yellow':{'form':1,'color':'#EE99AC'},'Flabebe-Orange':{'form':2,'color':'#EE99AC'},'Flabebe-Blue':{'form':3,'color':'#EE99AC'},'Flabebe-White':{'form':4,'color':'#EE99AC'},'Floette':{'form':0,'color':'#EE99AC'},'Floette-Yellow':{'form':1,'color':'#EE99AC'},'Floette-Orange':{'form':2,'color':'#EE99AC'},'Floette-Blue':{'form':3,'color':'#EE99AC'},'Floette-White':{'form':4,'color':'#EE99AC'},'Floette-Eternal':{'form':5,'color':'#EE99AC'},'Florges':{'form':0,'color':'#EE99AC'},'Florges-Yellow':{'form':1,'color':'#EE99AC'},'Florges-Orange':{'form':2,'color':'#EE99AC'},'Florges-Blue':{'form':3,'color':'#EE99AC'},'Florges-White':{'form':4,'color':'#EE99AC'},'Skiddo':{'form':0,'color':'#78C850'},'Gogoat':{'form':0,'color':'#78C850'},'Pancham':{'form':0,'color':'#C03028'},'Pangoro':{'form':0,'color':'#C03028'},'Furfrou':{'form':0,'color':'#A8A878'},'Espurr':{'form':0,'color':'#F85888'},'Meowstic':{'form':0,'color':'#F85888'},'Meowstic-F':{'form':1,'color':'#F85888'},'Honedge':{'form':0,'color':'#B8B8D0'},'Doublade':{'form':0,'color':'#B8B8D0'},'Aegislash':{'form':0,'color':'#B8B8D0'},'Aegislash-Blade':{'form':1,'color':'#B8B8D0'},'Spritzee':{'form':0,'color':'#EE99AC'},'Aromatisse':{'form':0,'color':'#EE99AC'},'Swirlix':{'form':0,'color':'#EE99AC'},'Slurpuff':{'form':0,'color':'#EE99AC'},'Inkay':{'form':0,'color':'#705848'},'Malamar':{'form':0,'color':'#705848'},'Binacle':{'form':0,'color':'#B8A038'},'Barbaracle':{'form':0,'color':'#B8A038'},'Skrelp':{'form':0,'color':'#A040A0'},'Dragalge':{'form':0,'color':'#A040A0'},'Clauncher':{'form':0,'color':'#6890F0'},'Clawitzer':{'form':0,'color':'#6890F0'},'Helioptile':{'form':0,'color':'#F8D030'},'Heliolisk':{'form':0,'color':'#F8D030'},'Tyrunt':{'form':0,'color':'#B8A038'},'Tyrantrum':{'form':0,'color':'#B8A038'},'Amaura':{'form':0,'color':'#B8A038'},'Aurorus':{'form':0,'color':'#B8A038'},'Sylveon':{'form':0,'color':'#EE99AC'},'Hawlucha':{'form':0,'color':'#C03028'},'Dedenne':{'form':0,'color':'#F8D030'},'Carbink':{'form':0,'color':'#B8A038'},'Goomy':{'form':0,'color':'#7038F8'},'Sliggoo':{'form':0,'color':'#7038F8'},'Goodra':{'form':0,'color':'#7038F8'},'Klefki':{'form':0,'color':'#B8B8D0'},'Phantump':{'form':0,'color':'#705898'},'Trevenant':{'form':0,'color':'#705898'},'Pumpkaboo':{'form':0,'color':'#705898'},'Pumpkaboo-Small':{'form':1,'color':'#705898'},'Pumpkaboo-Large':{'form':2,'color':'#705898'},'Pumpkaboo-Super':{'form':3,'color':'#705898'},'Gourgeist':{'form':0,'color':'#705898'},'Gourgeist-Small':{'form':1,'color':'#705898'},'Gourgeist-Large':{'form':2,'color':'#705898'},'Gourgeist-Super':{'form':3,'color':'#705898'},'Bergmite':{'form':0,'color':'#98D8D8'},'Avalugg':{'form':0,'color':'#98D8D8'},'Noibat':{'form':0,'color':'#A890F0'},'Noivern':{'form':0,'color':'#A890F0'},'Xerneas':{'form':0,'color':'#EE99AC'},'Yveltal':{'form':0,'color':'#705848'},'Zygarde':{'form':0,'color':'#7038F8'},'Zygarde-10%':{'form':1,'color':'#7038F8'},'Zygarde-Complete':{'form':4,'color':'#7038F8'},'Diancie':{'form':0,'color':'#B8A038'},'Diancie-Mega':{'form':1,'color':'#B8A038'},'Hoopa':{'form':0,'color':'#F85888'},'Hoopa-Unbound':{'form':1,'color':'#F85888'},'Volcanion':{'form':0,'color':'#F08030'},'Rowlet':{'form':0,'color':'#78C850'},'Dartrix':{'form':0,'color':'#78C850'},'Decidueye':{'form':0,'color':'#78C850'},'Litten':{'form':0,'color':'#F08030'},'Torracat':{'form':0,'color':'#F08030'},'Incineroar':{'form':0,'color':'#F08030'},'Popplio':{'form':0,'color':'#6890F0'},'Brionne':{'form':0,'color':'#6890F0'},'Primarina':{'form':0,'color':'#6890F0'},'Pikipek':{'form':0,'color':'#A8A878'},'Trumbeak':{'form':0,'color':'#A8A878'},'Toucannon':{'form':0,'color':'#A8A878'},'Yungoos':{'form':0,'color':'#A8A878'},'Gumshoos':{'form':0,'color':'#A8A878'},'Gumshoos-Totem':{'form':0,'color':'#A8A878'},'Grubbin':{'form':0,'color':'#A8B820'},'Charjabug':{'form':0,'color':'#A8B820'},'Vikavolt':{'form':0,'color':'#A8B820'},'Vikavolt-Totem':{'form':0,'color':'#A8B820'},'Crabrawler':{'form':0,'color':'#C03028'},'Crabominable':{'form':0,'color':'#C03028'},'Oricorio':{'form':0,'color':'#F08030'},'Oricorio-Pom-Pom':{'form':1,'color':'#F8D030'},'Oricorio-Pa\'u':{'form':2,'color':'#F85888'},'Oricorio-Sensu':{'form':3,'color':'#705898'},'Cutiefly':{'form':0,'color':'#A8B820'},'Ribombee':{'form':0,'color':'#A8B820'},'Ribombee-Totem':{'form':0,'color':'#A8B820'},'Rockruff':{'form':0,'color':'#B8A038'},'Lycanroc':{'form':0,'color':'#B8A038'},'Lycanroc-Midnight':{'form':1,'color':'#B8A038'},'Lycanroc-Dusk':{'form':2,'color':'#B8A038'},'Wishiwashi':{'form':0,'color':'#6890F0'},'Wishiwashi-School':{'form':1,'color':'#6890F0'},'Mareanie':{'form':0,'color':'#A040A0'},'Toxapex':{'form':0,'color':'#A040A0'},'Mudbray':{'form':0,'color':'#E0C068'},'Mudsdale':{'form':0,'color':'#E0C068'},'Dewpider':{'form':0,'color':'#6890F0'},'Araquanid':{'form':0,'color':'#6890F0'},'Araquanid-Totem':{'form':0,'color':'#6890F0'},'Fomantis':{'form':0,'color':'#78C850'},'Lurantis':{'form':0,'color':'#78C850'},'Lurantis-Totem':{'form':0,'color':'#78C850'},'Morelull':{'form':0,'color':'#78C850'},'Shiinotic':{'form':0,'color':'#78C850'},'Salandit':{'form':0,'color':'#A040A0'},'Salazzle':{'form':0,'color':'#A040A0'},'Salazzle-Totem':{'form':0,'color':'#A040A0'},'Stufful':{'form':0,'color':'#A8A878'},'Bewear':{'form':0,'color':'#A8A878'},'Bounsweet':{'form':0,'color':'#78C850'},'Steenee':{'form':0,'color':'#78C850'},'Tsareena':{'form':0,'color':'#78C850'},'Comfey':{'form':0,'color':'#EE99AC'},'Oranguru':{'form':0,'color':'#A8A878'},'Passimian':{'form':0,'color':'#C03028'},'Wimpod':{'form':0,'color':'#A8B820'},'Golisopod':{'form':0,'color':'#A8B820'},'Sandygast':{'form':0,'color':'#705898'},'Palossand':{'form':0,'color':'#705898'},'Pyukumuku':{'form':0,'color':'#6890F0'},'Type:Null':{'form':0,'color':'#A8A878'},'Silvally-Fairy':{'form':17,'color':'#EE99AC'},'Silvally-Dark':{'form':16,'color':'#705848'},'Silvally-Dragon':{'form':15,'color':'#7038F8'},'Silvally-Ice':{'form':14,'color':'#98D8D8'},'Silvally-Psychic':{'form':13,'color':'#F85888'},'Silvally-Electric':{'form':12,'color':'#F8D030'},'Silvally-Grass':{'form':11,'color':'#78C850'},'Silvally-Water':{'form':10,'color':'#6890F0'},'Silvally-Fire':{'form':9,'color':'#F08030'},'Silvally-Steel':{'form':8,'color':'#B8B8D0'},'Silvally-Ghost':{'form':7,'color':'#705898'},'Silvally-Bug':{'form':6,'color':'#A8B820'},'Silvally-Rock':{'form':5,'color':'#B8A038'},'Silvally-Ground':{'form':4,'color':'#E0C068'},'Silvally-Poison':{'form':3,'color':'#A040A0'},'Silvally-Flying':{'form':2,'color':'#A890F0'},'Silvally-Fighting':{'form':1,'color':'#C03028'},'Silvally':{'form':0,'color':'#A8A878'},'Minior-Meteor':{'form':0,'color':'#B8A038'},'Minior':{'form':7,'color':'#B8A038'},'Minior-Orange':{'form':8,'color':'#B8A038'},'Minior-Green':{'form':10,'color':'#B8A038'},'Minior-Blue':{'form':11,'color':'#B8A038'},'Minior-Indigo':{'form':12,'color':'#B8A038'},'Minior-Violet':{'form':13,'color':'#B8A038'},'Komala':{'form':0,'color':'#A8A878'},'Turtonator':{'form':0,'color':'#F08030'},'Togedemaru':{'form':0,'color':'#F8D030'},'Togedemaru-Totem':{'form':0,'color':'#F8D030'},'Mimikyu':{'form':0,'color':'#705898'},'Mimikyu-Totem':{'form':0,'color':'#705898'},'Bruxish':{'form':0,'color':'#6890F0'},'Drampa':{'form':0,'color':'#A8A878'},'Dhelmise':{'form':0,'color':'#705898'},'Jangmo-o':{'form':0,'color':'#7038F8'},'Hakamo-o':{'form':0,'color':'#7038F8'},'Kommo-o':{'form':0,'color':'#7038F8'},'Kommo-o-Totem':{'form':0,'color':'#7038F8'},'TapuKoko':{'form':0,'color':'#F8D030'},'TapuLele':{'form':0,'color':'#F85888'},'TapuBulu':{'form':0,'color':'#78C850'},'TapuFini':{'form':0,'color':'#6890F0'},'Cosmog':{'form':0,'color':'#F85888'},'Cosmoem':{'form':0,'color':'#F85888'},'Solgaleo':{'form':0,'color':'#F85888'},'Lunala':{'form':0,'color':'#F85888'},'Nihilego':{'form':0,'color':'#B8A038'},'Buzzwole':{'form':0,'color':'#A8B820'},'Pheromosa':{'form':0,'color':'#A8B820'},'Xurkitree':{'form':0,'color':'#F8D030'},'Celesteela':{'form':0,'color':'#B8B8D0'},'Kartana':{'form':0,'color':'#78C850'},'Guzzlord':{'form':0,'color':'#705848'},'Necrozma':{'form':0,'color':'#F85888'},'Necrozma-Dusk-Mane':{'form':1,'color':'#F85888'},'Necrozma-Dawn-Wings':{'form':2,'color':'#F85888'},'Necrozma-Ultra':{'form':3,'color':'#F85888'},'Magearna':{'form':0,'color':'#B8B8D0'},'Marshadow':{'form':0,'color':'#705898'},'Poipole':{'form':0,'color':'#A040A0'},'Naganadel':{'form':0,'color':'#A040A0'},'Stakataka':{'form':0,'color':'#B8A038'},'Blacephalon':{'form':0,'color':'#F08030'},'Zeraora':{'form':0,'color':'#F8D030'},'Meltan':{'form':0,'color':'#B8B8D0'},'Melmetal':{'form':0,'color':'#B8B8D0'},'Melmetal-Gmax':{'form':1,'color':'#B8B8D0'},'Grookey':{'form':0,'color':'#78C850'},'Thwackey':{'form':0,'color':'#78C850'},'Rillaboom':{'form':0,'color':'#78C850'},'Rillaboom-Gmax':{'form':1,'color':'#78C850'},'Scorbunny':{'form':0,'color':'#F08030'},'Raboot':{'form':0,'color':'#F08030'},'Cinderace':{'form':0,'color':'#F08030'},'Cinderace-Gmax':{'form':1,'color':'#F08030'},'Sobble':{'form':0,'color':'#6890F0'},'Drizzile':{'form':0,'color':'#6890F0'},'Inteleon':{'form':0,'color':'#6890F0'},'Inteleon-Gmax':{'form':1,'color':'#6890F0'},'Skwovet':{'form':0,'color':'#A8A878'},'Greedent':{'form':0,'color':'#A8A878'},'Rookidee':{'form':0,'color':'#A890F0'},'Corvisquire':{'form':0,'color':'#A890F0'},'Corviknight':{'form':0,'color':'#A890F0'},'Corviknight-Gmax':{'form':1,'color':'#A890F0'},'Blipbug':{'form':0,'color':'#A8B820'},'Dottler':{'form':0,'color':'#A8B820'},'Orbeetle':{'form':0,'color':'#A8B820'},'Orbeetle-Gmax':{'form':1,'color':'#A8B820'},'Nickit':{'form':0,'color':'#705848'},'Thievul':{'form':0,'color':'#705848'},'Gossifleur':{'form':0,'color':'#78C850'},'Eldegoss':{'form':0,'color':'#78C850'},'Wooloo':{'form':0,'color':'#A8A878'},'Dubwool':{'form':0,'color':'#A8A878'},'Chewtle':{'form':0,'color':'#6890F0'},'Drednaw':{'form':0,'color':'#6890F0'},'Drednaw-Gmax':{'form':1,'color':'#6890F0'},'Yamper':{'form':0,'color':'#F8D030'},'Boltund':{'form':0,'color':'#F8D030'},'Rolycoly':{'form':0,'color':'#B8A038'},'Carkol':{'form':0,'color':'#B8A038'},'Coalossal':{'form':0,'color':'#B8A038'},'Coalossal-Gmax':{'form':1,'color':'#B8A038'},'Applin':{'form':0,'color':'#78C850'},'Flapple':{'form':0,'color':'#78C850'},'Flapple-Gmax':{'form':1,'color':'#78C850'},'Appletun':{'form':0,'color':'#78C850'},'Appletun-Gmax':{'form':1,'color':'#78C850'},'Silicobra':{'form':0,'color':'#E0C068'},'Sandaconda':{'form':0,'color':'#E0C068'},'Sandaconda-Gmax':{'form':1,'color':'#E0C068'},'Cramorant':{'form':0,'color':'#A890F0'},'Cramorant-Gulping':{'form':1,'color':'#A890F0'},'Cramorant-Gorging':{'form':2,'color':'#A890F0'},'Arrokuda':{'form':0,'color':'#6890F0'},'Barraskewda':{'form':0,'color':'#6890F0'},'Toxel':{'form':0,'color':'#F8D030'},'Toxtricity':{'form':0,'color':'#F8D030'},'Toxtricity-Low-Key':{'form':1,'color':'#F8D030'},'Toxtricity-Gmax':{'form':2,'color':'#F8D030'},'Sizzlipede':{'form':0,'color':'#F08030'},'Centiskorch':{'form':0,'color':'#F08030'},'Centiskorch-Gmax':{'form':1,'color':'#F08030'},'Clobbopus':{'form':0,'color':'#C03028'},'Grapploct':{'form':0,'color':'#C03028'},'Sinistea':{'form':0,'color':'#705898'},'Polteageist':{'form':0,'color':'#705898'},'Hatenna':{'form':0,'color':'#F85888'},'Hattrem':{'form':0,'color':'#F85888'},'Hatterene':{'form':0,'color':'#F85888'},'Hatterene-Gmax':{'form':1,'color':'#F85888'},'Impidimp':{'form':0,'color':'#705848'},'Morgrem':{'form':0,'color':'#705848'},'Grimmsnarl':{'form':0,'color':'#705848'},'Grimmsnarl-Gmax':{'form':1,'color':'#705848'},'Obstagoon':{'form':0,'color':'#705848'},'Perrserker':{'form':0,'color':'#B8B8D0'},'Cursola':{'form':0,'color':'#705898'},'Sirfetch\'d':{'form':0,'color':'#C03028'},'Mr.Rime':{'form':0,'color':'#98D8D8'},'Runerigus':{'form':0,'color':'#E0C068'},'Milcery':{'form':0,'color':'#EE99AC'},'Alcremie':{'form':0,'color':'#EE99AC'},'Alcremie-Gmax':{'form':1,'color':'#EE99AC'},'Falinks':{'form':0,'color':'#C03028'},'Pincurchin':{'form':0,'color':'#F8D030'},'Snom':{'form':0,'color':'#98D8D8'},'Frosmoth':{'form':0,'color':'#98D8D8'},'Stonjourner':{'form':0,'color':'#B8A038'},'Eiscue':{'form':0,'color':'#98D8D8'},'Eiscue-Noice':{'form':1,'color':'#98D8D8'},'Indeedee':{'form':0,'color':'#F85888'},'Indeedee-F':{'form':1,'color':'#F85888'},'Morpeko':{'form':0,'color':'#F8D030'},'Morpeko-Hangry':{'form':1,'color':'#F8D030'},'Cufant':{'form':0,'color':'#B8B8D0'},'Copperajah':{'form':0,'color':'#B8B8D0'},'Copperajah-Gmax':{'form':1,'color':'#B8B8D0'},'Dracozolt':{'form':0,'color':'#F8D030'},'Arctozolt':{'form':0,'color':'#F8D030'},'Dracovish':{'form':0,'color':'#6890F0'},'Arctovish':{'form':0,'color':'#6890F0'},'Duraludon':{'form':0,'color':'#B8B8D0'},'Duraludon-Gmax':{'form':1,'color':'#B8B8D0'},'Dreepy':{'form':0,'color':'#7038F8'},'Drakloak':{'form':0,'color':'#7038F8'},'Dragapult':{'form':0,'color':'#7038F8'},'Zacian':{'form':0,'color':'#EE99AC'},'Zacian-Crowned':{'form':1,'color':'#EE99AC'},'Zamazenta':{'form':0,'color':'#C03028'},'Zamazenta-Crowned':{'form':1,'color':'#C03028'},'Eternatus':{'form':0,'color':'#A040A0'},'Eternatus-Eternamax':{'form':1,'color':'#A040A0'},'Kubfu':{'form':0,'color':'#C03028'},'Urshifu':{'form':0,'color':'#C03028'},'Urshifu-Rapid-Strike':{'form':1,'color':'#C03028'},'Urshifu-Gmax':{'form':2,'color':'#C03028'},'Urshifu-Rapid-Strike-Gmax':{'form':3,'color':'#C03028'},'Zarude':{'form':0,'color':'#705848'},'Regieleki':{'form':0,'color':'#F8D030'},'Regidrago':{'form':0,'color':'#7038F8'},'Glastrier':{'form':0,'color':'#98D8D8'},'Spectrier':{'form':0,'color':'#705898'},'Calyrex':{'form':0,'color':'#F85888'},'Calyrex-Ice':{'form':1,'color':'#F85888'},'Calyrex-Shadow':{'form':2,'color':'#F85888'}};
+  </script>
 </head>
 
 <body>
@@ -367,17 +413,24 @@
   <div id="Message">Checking if Future Sight AI is running...</div>
 </body>
 <script>
-  const FRAME_TYPE = 'BATTLE';
+  const FRAME_TYPE = 'YOUR_TEAM';
   const noBattleEle = FRAME_TYPE === 'BATTLE' ? '#Message' : '#Logo';
   document.getElementById(noBattleEle.substr(1)).style.display = 'block';
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@aspnet/signalr@1.1.0/dist/browser/signalr.js"></script>
+<script>
+  // ¯\_(ツ)_/¯
+  XMLHttpRequest.prototype.origSRH = XMLHttpRequest.prototype.setRequestHeader;
+  XMLHttpRequest.prototype.setRequestHeader = function () {
+      this.origSRH.apply(this, arguments);
+      this.withCredentials = false;
+  };
+</script>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   const API_URL = 'https://fsailiveupdate.azurewebsites.net/api/';
-  const SHOWDOWN_PAGE_HOST = 'https://cdn.jsdelivr.net';
-  const SHOWDOWN_PAGE_URL = SHOWDOWN_PAGE_HOST + '/gh/aed3/FSAI-Extras/liveStream/PSMini.html';
+  const SHOWDOWN_PAGE_URL = 'https://cdn.jsdelivr.net/gh/aed3/FSAI-Extras/liveStream/PSMini.html';
   const pageID = location.host.substr(0, 9);
   let hadBattle = false;
   let finding = false;
@@ -407,17 +460,19 @@
   CanvasJS.addColorSet('myColors', colorSet);
 
   const body = $('body');
-  const showBattleFrame = () => {
+  const showBattleFrame = async () => {
     const frame = $('<iframe></iframe>');
     currentBattle.frame = frame;
 
     window.addEventListener('message', message => {
-      if (message.origin === SHOWDOWN_PAGE_HOST && message.data === 'ready') {
+      console.log(message)
+      if (message.origin === location.origin && message.data === 'ready') {
         frames[0].postMessage(currentBattle.id.replace(/_/g, '-'));
       }
     }, {once: true});
 
-    frame.attr('src', SHOWDOWN_PAGE_URL);
+    const html = await fetch(SHOWDOWN_PAGE_URL).then(res => res.text());
+    frame.attr('srcdoc', html);
     body.append(frame);
   };
 
@@ -426,22 +481,22 @@
     body.append(chartHolder);
   };
 
-  const titleFontColor = '#CD0B11';
+  const accent = '#E11B22';
+  const textColor = '#FFFFFF';
   const blackish = '#181A1B';
   const defaultChartSettings = {
-    theme: 'light2',
-    colorSet: "myColors",
-    exportEnabled: true,
+    theme: 'dark2',
+    backgroundColor: blackish,
     animationsEnabled: true,
     axisY: {
-      labelFontColor: blackish,
-      lineColor: blackish,
-      gridColor: blackish,
+      labelFontColor: textColor,
+      lineColor: textColor,
+      gridColor: '#808080',
     },
     axisX: {
-      labelFontColor: blackish,
-      lineColor: blackish,
-      gridColor: blackish,
+      labelFontColor: textColor,
+      lineColor: textColor,
+      gridColor: textColor,
       margin: 20,
     },
   };
@@ -451,21 +506,21 @@
       ...defaultChartSettings,
       title: {
         text: 'FSAI\'s Win Chance by Turn',
-        fontWeight: 'normal',
-        fontColor: titleFontColor,
+        fontWeight: 'bold',
+        fontColor: textColor,
       },
       data: [{
         type: 'line',
-        markerSize: 15,
-        lineColor: titleFontColor,
-        markerColor: titleFontColor,
+        markerSize: $(window).width() <= 420 ? 10 : 15,
+        lineColor: accent,
+        markerColor: accent,
         toolTipContent: `<strong>{x}</strong>: {y}%`,
         dataPoints: data.winChances,
       }],
     };
 
     chartOpts.axisY.suffix = '%';
-    chartOpts.axisX.interval = 1;
+    chartOpts.axisX.interval = Math.ceil(data.winChances.length / 30) * ($(window).width() <= 420 ? 2 : 1);
     const chart = new CanvasJS.Chart('chart', chartOpts);
 
     chart.render();
@@ -474,9 +529,9 @@
   const predictionChartOpts = {
     ...defaultChartSettings,
     title: {
-      text: 'Last Turn\s Move Predictions',
+      text: 'Last Turn\'s Move Predictions',
       fontWeight: 'normal',
-      fontColor: titleFontColor,
+      fontColor: textColor,
     },
     subtitles: [],
     data: [{
@@ -484,15 +539,15 @@
       innerRadius: 50,
       indexLabel: '{name} - {y}%',
       indexLabelFontSize: 15,
-      indexLabelFontColor: blackish,
+      indexLabelFontColor: textColor,
       dataPoints: [],
     }],
   };
 
   if (FRAME_TYPE === 'WORST_CASE') {
-    predictionChartOpts.title.text = 'Last Turn\s Worst Case Scenarios';
+    predictionChartOpts.title.text = 'Last Turn\'s Worst Case Scenarios';
     predictionChartOpts.subtitles = [
-      {text: 'If the opponent went for these moves,\nthis is how much the AI thought its win chance would change by'},
+      {text: 'Predicted Win Chance Change Per Move'},
     ];
 
     predictionChartOpts.data[0].type = 'bar';
@@ -512,9 +567,14 @@
         {text: `${data.moveChance}% Chance to Move`},
         {text: `${data.switchChance}% Chance to Switch`},
       ].map(subtitle => {
-        subtitle.fontColor = blackish;
+        subtitle.fontColor = textColor;
         return subtitle;
       });
+
+      if ($(window).width() <= 420) {
+        predictionChartOpts.data[0].indexLabelFontSize = 10;
+        predictionChartOpts.data[0].innerRadius = 20;
+      }
     }
     else {
       predictionChartOpts.data[0].dataPoints =
@@ -532,30 +592,47 @@
 
   const updateTeam = (data = {}) => {
     Object.assign(currentBattle.yourTeam, data.updatedSets);
-    $('.TM').remove();
-    Object.entries(currentBattle.yourTeam).forEach(([index, set]) => {
+    $('.TM, #TeamDisplayTitle').remove();
+    body.append($('<div id="TeamDisplayTitle">Opponent\'s Predicted Team<hr/></div>'));
+    Object.entries(currentBattle.yourTeam).forEach(([index, {name, set}]) => {
       const setText = $(`<div class="TM"></div>`);
-      setText.append(`<img src="http://pokepast.es/img/pokemon/${index}-0.png"/>`);
-      setText.append(`<div class="move">Moves</div>`);
+      const img = $(`<img src="https://pokepast.es/img/pokemon/${index}-${imageForms[name.replace(/ /g, '')].form || 0}.png"/>`);
+      const move = $(`<div class="move">Moves</div>`);
+
+      img.css('filter', `drop-shadow(0px 0px 6px ${imageForms[name.replace(/ /g, '')].color})`);
+      setText.append(move);
+      setText.append(img);
+
+      const longName = set.top.split('\n')[0].length > 26;
+      if (longName) {
+        move.addClass('long-name');
+        img.addClass('long-name');
+      }
 
       Object.entries(set).forEach(([name, text]) => {
-        const setPart = $(`<pre class="${name}"><code>${text.trim()}</code></pre>`);
+        if (longName && name === 'top') {
+          text = text.split('@ ').map(t => t.padEnd(29, ' ')).join('@ ');
+        }
+        const setPart = $(`<pre class="${name + (longName ? ' long-name' : '')}"><code>${text}</code></pre>`);
         setText.append(setPart);
+        setText.append('<pre class="space"><code>\n</code></pre>');
       });
 
       setText.append($(`<button class="copy-button" onclick="copySet(event)">Copy</button>`));
       body.append(setText);
     });
+
+    $(window).resize();
   };
 
   const copySet = (event) => {
     const textHolders = $(event.currentTarget).parent().find('code');
-    navigator.clipboard.writeText(textHolders.toArray().map(c => c.innerText).join('\n'));
+    navigator.clipboard.writeText(textHolders.toArray().map(c => c.innerText).join(''));
   };
 
   const show = () => {
     $(noBattleEle).hide();
-    $('#chart, iframe, .TM').remove();
+    $('#chart, iframe, .TM, #TeamDisplayTitle').remove();
     switch (FRAME_TYPE) {
       case 'BATTLE': return showBattleFrame();
       case 'YOUR_MOVES':
@@ -574,7 +651,6 @@
             members.css('transform', `scale(${width / 688})`);
           }
         });
-        $(window).resize();
         updateTeam();
       }
     }
@@ -583,7 +659,7 @@
   const hide = () => {
     $('#Message').html('Future Sight AI is not running right now</br>Try coming back later');
     $(noBattleEle).show();
-    $('#chart, iframe').remove();
+    $('#chart, iframe, #TeamDisplayTitle, .TM').remove();
   };
 
   const findBattle = () => {
