@@ -413,7 +413,7 @@
   <div id="Message">Checking if Future Sight AI is running...</div>
 </body>
 <script>
-  const FRAME_TYPE = 'YOUR_TEAM';
+  const FRAME_TYPE = 'BATTLE';
   const noBattleEle = FRAME_TYPE === 'BATTLE' ? '#Message' : '#Logo';
   document.getElementById(noBattleEle.substr(1)).style.display = 'block';
 </script>
@@ -430,7 +430,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   const API_URL = 'https://fsailiveupdate.azurewebsites.net/api/';
-  const SHOWDOWN_PAGE_URL = 'https://cdn.jsdelivr.net/gh/aed3/FSAI-Extras/liveStream/PSMini.html';
+  const commit = '48c596aad95312165329a9a7240b0caff60de910';
+  const SHOWDOWN_PAGE_URL = `https://cdn.jsdelivr.net/gh/aed3/FSAI-Extras@${commit}/liveStream/PSMini.html`;
   const pageID = location.host.substr(0, 9);
   let hadBattle = false;
   let finding = false;

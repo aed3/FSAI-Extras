@@ -175,6 +175,15 @@ https://psim.us/dev
     };
   })();
 
+
+  Battle.prototype.stopSeeking = (function () {
+    const cached_function = Battle.prototype.stopSeeking;
+    return function () {
+      cached_function.apply(this, arguments);
+      resize();
+    };
+  })();
+
   app.receive = (data) => {
     const parts = [];
     if (data.charAt(0) === '|') {
