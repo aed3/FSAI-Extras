@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<!--
+           .............
+       ,...................
+     ,..................========
+    ....~=##############=======+
+   ...##################=======.
+  ..=######+...,    +##=======,..
+  ..=###### ., .....  +=====+,....
+     ###########~,..  ======
+  .....##############~=====+....., pokemonshowdown.com
+  ..........###########====......
+    ............#######,==......
+  =###.,........+#####+ .......
+  ####################~......,
+  #################+======,
+     ++++++++++++ =======+
+
+Viewing source? We're open source! Check us out on GitHub!
+https://github.com/Zarel/Pokemon-Showdown
+https://github.com/Zarel/Pokemon-Showdown-Client (you are here)
+
+Also visit us in the Dev chatroom:
+https://psim.us/dev
+
+-->
+<meta charset="UTF-8" />
+<meta id="viewport" name="viewport" content="width=device-width" />
+<title>Showdown!</title>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<link rel="shortcut icon" href="//play.pokemonshowdown.com/favicon.ico" id="dynamic-favicon" />
+<link rel="icon" sizes="128x128" href="//play.pokemonshowdown.com/favicon-128.png" />
+<link rel="stylesheet" href="//play.pokemonshowdown.com/style/battle.css?8e37a9fd" />
+<link rel="stylesheet" href="//play.pokemonshowdown.com/style/client.css?800d1882" />
+<link rel="stylesheet" href="//play.pokemonshowdown.com/style/sim-types.css?dad3cdf0" />
+<link rel="stylesheet" href="//play.pokemonshowdown.com/style/utilichart.css?e39c48cf" />
+<link rel="stylesheet" href="//play.pokemonshowdown.com/style/font-awesome.css?932f42c7" />
+<script>
+	window.onerror = function(err, uri, line) {
+		var msg = uri + ':' + line + ': ' + err;
+		if ('ga' in window) {
+			ga('send', 'event', 'Client error', msg);
+		} else {
+			alert('ERROR: ' + msg);
+		}
+		return false;
+	};
+</script>
+
+<div id="header" class="header">
+	<img class="logo" src="//play.pokemonshowdown.com/pokemonshowdownbeta.png" srcset="//play.pokemonshowdown.com/pokemonshowdownbeta@2x.png 2x" alt="Pok&eacute;mon Showdown! (beta)" width="146" height="44" /><div class="maintabbarbottom"></div>
+</div>
+<div class="ps-room scrollable" id="mainmenu"><div class="mainmenuwrapper">
+	<div class="leftmenu">
+		<div class="activitymenu">
+			<div class="pmbox">
+				<div class="pm-window news-embed" data-newsid="349">
+					<h3><button class="closebutton" tabindex="-1"><i class="fa fa-times-circle"></i></button><button class="minimizebutton" tabindex="-1"><i class="fa fa-minus-circle"></i></button>News</h3>
+					<div class="pm-log" style="max-height:none">
+						<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><div class="newsentry" data-newsid="349" data-date="1626203486"><h4>Pokemon GO Fest 2021</h4><p>Join the <a href="https://play.pokemonshowdown.com/pokemongo" target="_blank">Pokemon Go room</a> for an epic GO Fest weekend full of shinies, raids, and contests! Come hang out during the weekend of July 17-18 to celebrate this once-a-year event! Winners of the room contests can win a custom avatar and the prize winner rank! More details in <a href="https://www.smogon.com/forums/threads/pok%C3%A9mon-go.3549549/page-239#post-8906598" target="_blank">this post</a>.<br /></p><p>&mdash;<strong>Aeonic</strong> <small class="date">on Jul 13, 2021</small></p></div><div class="newsentry" data-newsid="348" data-date="1625878372"><h4>National Dex Grand Slam, Part II</h4><p>Finishing off the National Dex Grand Slam are the signups for the <a href="https://www.smogon.com/forums/threads/national-dex-uu-open-signups.3687170/" target="_blank">National Dex UU Open</a>! Make sure to sign up for a chance to compete and gain points for the National Dex circuit!</p><p>&mdash;<strong>Aeonic</strong> <small class="date">on Jul 9, 2021</small></p></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="mainmenu">
+			<div id="loading-message" class="mainmessage">Initializing... <noscript>FAILED<br /><br />Pok&eacute;mon Showdown requires JavaScript.</noscript></div>
+		</div>
+	</div>
+	<div class="rightmenu">
+	</div>
+	<div class="mainmenufooter">
+		<div class="bgcredit"></div>
+		<small><a href="//dex.pokemonshowdown.com/" target="_blank">Pok&eacute;dex</a> | <a href="//replay.pokemonshowdown.com/" target="_blank">Replays</a> | <a href="//pokemonshowdown.com/rules" target="_blank">Rules</a> | <a href="//pokemonshowdown.com/credits" target="_blank">Credits</a> | <a href="http://smogon.com/forums/" target="_blank">Forum</a></small>
+	</div>
+</div></div>
+<script nomodule src="//play.pokemonshowdown.com/js/lib/ps-polyfill.js"></script>
+<script src="//play.pokemonshowdown.com/config/config.js?217b896c"></script>
+<script src="//play.pokemonshowdown.com/js/lib/jquery-2.1.4.min.js"></script>
+<script src="//play.pokemonshowdown.com/js/lib/jquery-cookie.js"></script>
+<script src="//play.pokemonshowdown.com/js/lib/autoresize.jquery.min.js?6d0545f7"></script>
+<script src="//play.pokemonshowdown.com/js/battle-sound.js?f2f72ad7"></script>
+<script src="//play.pokemonshowdown.com/js/lib/html-css-sanitizer-minified.js?803e34bd"></script>
+<script src="//play.pokemonshowdown.com/js/lib/lodash.core.js?e9be4c2d"></script>
+<script src="//play.pokemonshowdown.com/js/lib/backbone.js?8a8d8296"></script>
+<script src="//play.pokemonshowdown.com/js/lib/d3.v3.min.js"></script>
+
+<script src="//play.pokemonshowdown.com/js/battledata.js?dc78ae0d"></script>
+<script src="//play.pokemonshowdown.com/js/storage.js?84a47620"></script>
+<script src="//play.pokemonshowdown.com/data/pokedex-mini.js?a645855a"></script>
+<script src="//play.pokemonshowdown.com/data/typechart.js?05eaf9f6"></script>
+<script src="//play.pokemonshowdown.com/js/battle.js?46af4148"></script>
+<script src="//play.pokemonshowdown.com/js/lib/sockjs-1.4.0-nwjsfix.min.js"></script>
+<script src="//play.pokemonshowdown.com/js/lib/color-thief.min.js"></script>
+
+<script src="//play.pokemonshowdown.com/js/client.js?99235e25"></script>
+<script src="//play.pokemonshowdown.com/js/client-topbar.js?f8446737"></script>
+<script src="//play.pokemonshowdown.com/js/client-mainmenu.js?327a75c0"></script>
+<script src="//play.pokemonshowdown.com/js/client-teambuilder.js?0bdec6bc"></script>
+<script src="//play.pokemonshowdown.com/js/client-ladder.js?e0f0ebc4"></script>
+<script src="//play.pokemonshowdown.com/js/client-chat.js?23ff4b5a"></script>
+<script src="//play.pokemonshowdown.com/js/client-chat-tournament.js?538ba836"></script>
+<script src="//play.pokemonshowdown.com/js/battle-tooltips.js?c90dabf0"></script>
+<script src="//play.pokemonshowdown.com/js/client-battle.js?ef808c83"></script>
+<script src="//play.pokemonshowdown.com/js/client-rooms.js?603a465c"></script>
+<script src="//play.pokemonshowdown.com/data/graphics.js?2e21e297"></script>
+
+<script>
+	var app = new App();
+</script>
+
+<script src="//play.pokemonshowdown.com/data/pokedex.js?d7b9b921"></script>
+<script src="//play.pokemonshowdown.com/data/moves.js?594c6a22"></script>
+<script src="//play.pokemonshowdown.com/data/items.js?575c8aee"></script>
+<script src="//play.pokemonshowdown.com/data/abilities.js?a49dd006"></script>
+
+<script src="//play.pokemonshowdown.com/data/search-index.js?21e71eca"></script>
+<script src="//play.pokemonshowdown.com/data/teambuilder-tables.js?86633e30"></script>
+<script src="//play.pokemonshowdown.com/js/battle-dex-search.js?c33f839a"></script>
+<script src="//play.pokemonshowdown.com/js/search.js?a0385b3b"></script>
+
+<script src="//play.pokemonshowdown.com/data/aliases.js?75f2d8f6" async="async"></script>
+
+<script>
+  Config.server = {
+    "id": "showdown",
+    "host": "sim3.psim.us",
+    "port": 443,
+    "httpport": 8000,
+    "altport": 80,
+    "registered": true,
+  };
+
+  window.addEventListener('message', (message) => {
+    if (true || /\d{9}-atari-embeds\.googleusercontent\.com/.test(message.origin) &&
+      /gen\d[a-z]{2,}-\d+/.test(message.data)) {
+      app.send('/join battle-' + message.data);
+    }
+  }, false);
+
+  app.connect();
+  app.on('init:socketopened', () => parent.postMessage('ready'));
+
+  Storage.prefs('mute', true, true);
+  Storage.prefs('ignorenicks', true, true);
+  Storage.prefs('ignoreopp', true, true);
+  Storage.prefs('ignorespects', true, true);
+  BattleSound.setMute(true);
+
+  const resize = () =>
+    $('.battle').css('transform', `scale(${$(window).width() / 640})`);
+
+  BattleScene.prototype.addPokemonSprite = (function () {
+    const cached_function = BattleScene.prototype.addPokemonSprite;
+    return function (pokemon) {
+      const sprite = cached_function.apply(this, arguments);
+      pokemon.name = pokemon.speciesForme;
+      return sprite;
+    }
+  })();
+
+  BattleRoom.prototype.updateLayout = (function () {
+    const cached_function = BattleRoom.prototype.updateLayout;
+    return function () {
+      cached_function.apply(this, arguments);
+      resize();
+      this.$('.battle-chat-toggle[name=showChat]').html('<i class="fa fa-caret-left"></i> Battle Log');
+    };
+  })();
+
+  BattleRoom.prototype.hideChat = (function () {
+    const cached_function = BattleRoom.prototype.hideChat;
+    return function () {
+      cached_function.apply(this, arguments);
+      this.$('.battle-chat-toggle[name=showChat]').html('<i class="fa fa-caret-left"></i> Battle Log');
+    };
+  })();
+
+  app.receive = (data) => {
+    const parts = [];
+    if (data.charAt(0) === '|') {
+      parts.push(...data.substr(1).split('|'));
+    }
+    switch (parts[0]) {
+      case 'popup':
+      case 'chat':
+      case 'c':
+      case 'pm': {
+        return;
+      }
+    }
+
+    App.prototype.receive.apply(app, [data]);
+  };
+
+  $(window).resize(resize);
+</script>
+
+<style>
+  *:not(.battle, .battle *, .ps-room, #tooltipwrapper, #tooltipwrapper *, body, html, .battle-chat-toggle, .battle-chat-toggle *, .battle-log, .battle-log *) {
+    display: none;
+  }
+
+  .ps-room {
+    top: 0;
+    width: 0!important;
+    margin: 0;
+    border: 0;
+  }
+
+  .battle-chat-toggle {
+    position: fixed!important;
+    top: unset!important;
+    right: 0px!important;
+    bottom: 15px!important;
+    left: unset!important;
+  }
+
+  .battle-log {
+    position: fixed!important;
+    width: 100%!important;
+    height: 100%!important;
+  }
+
+  .battle-options {
+    display: none;
+  }
+
+  body {
+    background: none;
+  }
+</style>
