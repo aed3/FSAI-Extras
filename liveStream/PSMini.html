@@ -159,11 +159,19 @@ https://psim.us/dev
   })();
 
   BattleRoom.prototype.updateLayout = (function () {
-    const cached_function = BattleRoom.prototype.updateLayout;
     return function () {
-      cached_function.apply(this, arguments);
-      $(window).resize();
+      var width = this.$el.width();
+      if (width < 950 || this.battle.hardcoreMode) {
+        this.battle.messageShownTime = 500;
+      } else {
+        this.battle.messageShownTime = 1;
+      }
+
+      this.$el.toggleClass('small-layout', width < 830);
+      this.$el.toggleClass('tiny-layout', width < 640);
+      if (this.$chat) this.$chatFrame.scrollTop(this.$chat.height());
       this.$('.battle-chat-toggle[name=showChat]').html('<i class="fa fa-caret-left"></i> Battle Log');
+      resize();
     };
   })();
 
@@ -172,14 +180,6 @@ https://psim.us/dev
     return function () {
       cached_function.apply(this, arguments);
       this.$('.battle-chat-toggle[name=showChat]').html('<i class="fa fa-caret-left"></i> Battle Log');
-    };
-  })();
-
-  Battle.prototype.run = (function () {
-    const cached_function = Battle.prototype.run;
-    return function () {
-      cached_function.apply(this, arguments);
-      $(window).resize();
     };
   })();
 
