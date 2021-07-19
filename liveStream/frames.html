@@ -422,8 +422,8 @@
   // ¯\_(ツ)_/¯
   XMLHttpRequest.prototype.origSRH = XMLHttpRequest.prototype.setRequestHeader;
   XMLHttpRequest.prototype.setRequestHeader = function () {
-      this.origSRH.apply(this, arguments);
-      this.withCredentials = false;
+    this.origSRH.apply(this, arguments);
+    this.withCredentials = false;
   };
 </script>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
