@@ -175,37 +175,40 @@ const MonPossibilities = (totalItems, totalEVPos) => {
     let learnset = [];
 
     const collectLearnset = () => {
-      const filteredLearnset = (n) => {
-        return Object.entries(Learnsets[n].learnset)
-          .map(([move]) => move);
-      }
+      const filteredLearnset = (id) => {
+        return new Set(Object.entries(Learnsets[id].learnset)
+          .map(([move]) => move));
+      };
 
       const baseLearnset = filteredLearnset(name);
 
       let currentDexData = Pokedex[name];
       while (currentDexData && currentDexData.prevo) {
-        if (currentDexData.evoLevel) {
-          const prevoLevel = BigInt(currentDexData.evoLevel);
-          if (evoLevel < prevoLevel) evoLevel = prevoLevel;
-        }
-        else if (evoLevel < 2n) {
-          // This part needs some work as Pokemon that evolve when knowing a certain move are given the wrong level
-          evoLevel = 2n;
+        const prevoID = toID(currentDexData.prevo);
+        if (!currentDexData.canHatch) {
+          if (currentDexData.evoLevel) {
+            const prevoLevel = BigInt(currentDexData.evoLevel);
+            if (evoLevel < prevoLevel) evoLevel = prevoLevel;
+          }
+          else if (currentDexData.evoType === 'levelMove') {
+            const learnMethod = Learnsets[toID(prevoID)].learnset[toID(currentDexData.evoMove)][0];
+            const level = /\dL(\d+)/.exec(learnMethod);
+            if (level) {
+              evoLevel = BigInt(level[1]);
+            }
+          }
+          else {
+            evoLevel = 2n;
+          }
         }
 
-        const prevoID = toID(currentDexData.prevo);
-        filteredLearnset(prevoID)
-          .forEach(move => {
-            if (!baseLearnset.includes(move)) {
-              baseLearnset.push(move);
-            }
-          });
+        filteredLearnset(prevoID).forEach(move => baseLearnset.add(move));
 
         currentDexData = Pokedex[prevoID];
       }
 
       learnset = baseLearnset;
-    }
+    };
 
     const revertToSpecies = () => {
       name = toID(Pokedex[name].baseSpecies);
@@ -225,20 +228,16 @@ const MonPossibilities = (totalItems, totalEVPos) => {
       collectLearnset();
     }
 
-    if (!learnset.length) {
+    if (!learnset.size) {
       if (!revertToSpecies()) return;
     }
 
-    totalMoves += learnset.length;
-    moveCount += learnset.length;
+    totalMoves += learnset.size;
+    moveCount += learnset.size;
     totalMonPossibilities = constantsMulted * abilityCount * genderCount * (requiredItem ? 1n : totalItems);
 
     totalMonPossibilities *= choose(moveCount, MOVE_COUNT_MAX);
 
-    // The line below was commented out to gain the number found in the video.
-    // The reason for this is explained in the README, but it only changed the
-    // final answer from 10^358 to 10^354, which is insignificant for the point
-    // I was trying to get across.
     totalMonPossibilities /= evoLevel;
 
     totalPossibilities += totalMonPossibilities;
